@@ -33,11 +33,11 @@ public class WallObject extends GameObject{
 		// TODO Auto-generated method stub
 		GameClass.staticGameObjects.add(this);
 		if(vertical){
-			this.sizeX = 26;
-			this.sizeY = 100;
+			this.sizeX = 12;
+			this.sizeY = 50;
 		} else {
-			this.sizeX = 100;
-			this.sizeY = 26;
+			this.sizeX = 50;
+			this.sizeY = 12;
 		}
 	}
 

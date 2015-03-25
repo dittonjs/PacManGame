@@ -40,7 +40,7 @@ public class DotObject extends GameObject {
 	@Override
 	public void PaintToScreen(Graphics2D g) {
 		// TODO Auto-generated method stub
-		g.fillOval(this.xPos, this.yPos, 12, 12);
+		g.fillOval(this.xPos, this.yPos, 8, 8);
 		//g.drawimage(",",//image to draw)
 	}
 

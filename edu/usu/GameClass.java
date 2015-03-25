@@ -58,6 +58,8 @@ public class GameClass extends JPanel {
 	//int[] vYPos = {0, 0, 100};
 	int[] hXPos = { 0, 100, 200, 300, 400, 500, 600, 700};
 	int[] hYPos = {-13, -13, -13, -13, -13, -13, -13, -13};
+	int[] hXPos2 = { 0, 100, 200, 300, 400, 500, 600, 700};
+	//int[] hYPos2 = {}
 	
 	// THIS FUNCTION IS TAKE THE ARRAYS ABOVE AND USES THE DATA TO ADD WALLS, ITS
 	// DEFINETELY NOT DONE
@@ -72,8 +74,8 @@ public class GameClass extends JPanel {
 	
 	// THIS FUNCTION PLACES DOTS ALL OVER THE SCREEN
 	private void makedots(){
-		for(int i = 42; i < 800; i += 50){
-			for(int j = 42; j < 600; j += 50){
+		for(int i = 0; i < 800; i += 25){
+			for(int j = 0; j < 600; j += 25){
 				DotObject Dot = new DotObject(i,j);
 			}
 			
@@ -156,7 +158,7 @@ public class GameClass extends JPanel {
 				}
 			}
 			game.repaint();
-			Thread.sleep(10);
+			Thread.sleep(5);
 		}
 		
 	}

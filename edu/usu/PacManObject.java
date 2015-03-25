@@ -105,7 +105,7 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	@Override
 	public void PaintToScreen(Graphics2D g) {
 		// TODO Auto-generated method stub
-		g.fillRect(xPos - 24, yPos -24, 48, 48);
+		g.fillRect(xPos - 12, yPos - 12, 24, 24);
 		
 	}
 	
@@ -145,38 +145,38 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	
 	public boolean CheckChangeDirection(){
 		if(this.direction == 0 || this.direction ==2){
-			if(this.xPos-24 == 100-24) return true;
-			if(this.xPos-24 == 200-24) return true;
-			if(this.xPos-24 == 300-24) return true;
-			if(this.xPos-24 == 400-24) return true;
-			if(this.xPos-24 == 500-24) return true;
-			if(this.xPos-24 == 600-24) return true;
-			if(this.xPos-24 == 700-24) return true;
-			if(this.xPos-24 == 800-24) return true;
-			if(this.xPos-24 == 50-24) return true;
-			if(this.xPos-24 == 150-24) return true;
-			if(this.xPos-24 == 250-24) return true;
-			if(this.xPos-24 == 350-24) return true;
-			if(this.xPos-24 == 450-24) return true;
-			if(this.xPos-24 == 550-24) return true;
-			if(this.xPos-24 == 650-24) return true;
-			if(this.xPos-24 == 750-24) return true;
+			if(this.xPos-12 == 100-12) return true;
+			if(this.xPos-12 == 200-12) return true;
+			if(this.xPos-12 == 300-12) return true;
+			if(this.xPos-12 == 400-12) return true;
+			if(this.xPos-12 == 500-12) return true;
+			if(this.xPos-12 == 600-12) return true;
+			if(this.xPos-12 == 700-12) return true;
+			if(this.xPos-12 == 800-12) return true;
+			if(this.xPos-12 == 50-12) return true;
+			if(this.xPos-12 == 150-12) return true;
+			if(this.xPos-12 == 250-12) return true;
+			if(this.xPos-12 == 350-12) return true;
+			if(this.xPos-12 == 450-12) return true;
+			if(this.xPos-24 == 550-12) return true;
+			if(this.xPos-12 == 650-12) return true;
+			if(this.xPos-12 == 750-12) return true;
 			return false;
 		}
 		if (this.direction == 1 || this.direction == 3){
-			if(this.yPos-24 == 0) return true;
-			if(this.yPos-24 == 100-24) return true;
-			if(this.yPos-24 == 200-24) return true;
-			if(this.yPos-24 == 300-24) return true;
-			if(this.yPos-24 == 400-24) return true;
-			if(this.yPos-24 == 500-24) return true;
-			if(this.yPos-24 == 600-24) return true;
-			if(this.yPos-24 == 50-24) return true;
-			if(this.yPos-24 == 150-24) return true;
-			if(this.yPos-24 == 250-24) return true;
-			if(this.yPos-24 == 350-24) return true;
-			if(this.yPos-24 == 450-24) return true;
-			if(this.yPos-24 == 550-24) return true;
+			if(this.yPos-12 == 0) return true;
+			if(this.yPos-12 == 100-12) return true;
+			if(this.yPos-12 == 200-12) return true;
+			if(this.yPos-12 == 300-12) return true;
+			if(this.yPos-12 == 400-12) return true;
+			if(this.yPos-12 == 500-12) return true;
+			if(this.yPos-12 == 600-12) return true;
+			if(this.yPos-12 == 50-12) return true;
+			if(this.yPos-12 == 150-12) return true;
+			if(this.yPos-12 == 250-12) return true;
+			if(this.yPos-12 == 350-12) return true;
+			if(this.yPos-12 == 450-12) return true;
+			if(this.yPos-12 == 550-12) return true;
 			//if(this.yPos-24 == 650-24) return true;
 			return false;		
 		}
@@ -186,7 +186,7 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	
 	
 	public Rectangle getBounds() {
-		return new Rectangle(this.xPos -24 , this.yPos -24, 48 , 48);
+		return new Rectangle(this.xPos-12 , this.yPos-12, 24 , 24);
 	}
 	
 	private void Move(){
