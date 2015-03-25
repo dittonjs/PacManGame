@@ -1,5 +1,4 @@
 package edu.usu;
-//hello
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
