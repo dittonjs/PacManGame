@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 // THIS CLASS JUST LAYS OUT A GRID ON THE SCREEN SO WE CAN PLACE ALL 
 // OUR IMAGES IN THE RIGHT PLACES
 //===========================================
-
+//this is a comment
 
 public class DebugGridClass extends GameObject {
 	public DebugGridClass(){
