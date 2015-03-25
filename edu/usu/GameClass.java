@@ -75,8 +75,10 @@ public class GameClass extends JPanel {
 	
 	// THIS FUNCTION PLACES DOTS ALL OVER THE SCREEN
 	private void makedots(){
-		for(int i = 0; i < 1000; i += 25){
-			for(int j = 0; j < 800; j += 25){
+
+		for(int i = -4; i < 1000; i += 25){
+			for(int j = -4; j < 800; j += 25){
+
 				DotObject Dot = new DotObject(i,j);
 			}
 			
@@ -138,7 +140,10 @@ public class GameClass extends JPanel {
 		GameClass game = new GameClass();
 		frame.add(game);
 		frame.setSize(1000, 800);
+<<<<<<< HEAD
 		frame.setBackground(Color.black);
+=======
+>>>>>>> fixed dot spacing and debug lines
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		(new Thread(player)).start();
