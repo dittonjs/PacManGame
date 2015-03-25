@@ -75,8 +75,8 @@ public class GameClass extends JPanel {
 	
 	// THIS FUNCTION PLACES DOTS ALL OVER THE SCREEN
 	private void makedots(){
-		for(int i = 0; i < 800; i += 25){
-			for(int j = 0; j < 600; j += 25){
+		for(int i = 0; i < 1000; i += 25){
+			for(int j = 0; j < 800; j += 25){
 				DotObject Dot = new DotObject(i,j);
 			}
 			
