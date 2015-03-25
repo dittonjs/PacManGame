@@ -110,7 +110,7 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	}
 	
 	public void ChangeNextDirection(int dir){
-		System.out.println("this works");
+		//System.out.println("this works");
 		if(this.direction == 0 && dir == 2){
 			this.ChangeDirection(dir);
 			this.nextDir = dir;
@@ -204,7 +204,6 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	//USE THIS TO CHANGE THE SPRITES
 	@Override
 	public void run(){
-		// TODO Auto-generated method stub
 		int i = 0;
 		while(true){
 			System.out.println("THIS RUNS EVERY SECOND");
