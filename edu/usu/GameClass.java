@@ -140,10 +140,9 @@ public class GameClass extends JPanel {
 		GameClass game = new GameClass();
 		frame.add(game);
 		frame.setSize(1000, 800);
-<<<<<<< HEAD
+
 		frame.setBackground(Color.black);
-=======
->>>>>>> fixed dot spacing and debug lines
+
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		(new Thread(player)).start();
