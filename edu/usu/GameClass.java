@@ -1,4 +1,5 @@
 package edu.usu;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -136,7 +137,8 @@ public class GameClass extends JPanel {
 		JFrame frame = new JFrame();
 		GameClass game = new GameClass();
 		frame.add(game);
-		frame.setSize(800, 620);
+		frame.setSize(1000, 800);
+		frame.setBackground(Color.black);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		(new Thread(player)).start();
