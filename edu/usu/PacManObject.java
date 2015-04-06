@@ -1,10 +1,15 @@
 package edu.usu;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
+
+import javax.imageio.ImageIO;
 
 //=====================================================
 // USE THIS CLASS AS AN EXAMPLE FOR CREATING YOUR CLASSES.
@@ -23,19 +28,40 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	private int speedY=1;
 	private int nextDir;
 	
+	private Image rightImage;
+	private Image leftImage;
+	private Image downImage;
+	private Image upImage;
+	
 	//private int[] dims = {50, 25};
 	//private int myDim = 50;
 	// AS MUCH AS YOU CAN YOU SHOULD INITIALIZE IN THE ONENABLE FUNCTION 
 	// AND THEN CALL THE ONENABLE FUNCTION LIKE LISTED BELOW
+	
 	public PacManObject(int x, int y, int d, boolean s){
 		this.xPos = x;
 		this.yPos = y;
 		this.direction = d;
 		this.isStatic = s;
+		
+		try{
+            File image1 = new File("PacRight.png");
+            File image2 = new File("PacLeft.png");
+            File image3 = new File("PacUp.png");
+            File image4 = new File("PacDown.png");
+            rightImage = ImageIO.read(image1);
+            leftImage = ImageIO.read(image2);
+            upImage = ImageIO.read(image3);
+            downImage = ImageIO.read(image4);
+            visRep = leftImage;
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
 		this.OnEnable();
 	}
 	
-	// EVERY THAT PACK MAN DOES YOU NEED TO PUT IN HERE, RIGHT NOW IT
+	// EVERY THING THAT PACMAN DOES YOU NEED TO PUT IN HERE, RIGHT NOW IT
 	// SIMPLY ADDS ON TO THE XPOSITION, THEN AFTER ALL THE UPDATES HAVE OCCURED THE REPAINT 
 	// FUNCTION MOVES THE POSITION OF THE OBJECT ON THE SCREEN.
 	@Override
@@ -43,9 +69,9 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 		// TODO Auto-generated method stub
 		//System.out.println("PacManUpdate");
 		
+		
 		if(this.CheckChangeDirection()){
 			this.ChangeDirection(nextDir);
-			System.out.println("true");
 		}
 		this.Move();
 		// IF COLLSION WITH OTHER OBJECT
@@ -57,8 +83,7 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	@Override
 	public void OnCollision(GameObject other) {
 		// TODO Auto-generated method stub
-		if(other.getClass() == WallObject.class){
-			WallObject obj = (WallObject)other;
+		if(other.getClass() == WallObject.class){			
 			if(this.direction==2){
 				this.xPos = xPos-1;
 				this.speedX =0;
@@ -75,6 +100,19 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 				this.yPos = yPos+1;
 				this.speedX =0;
 				this.speedY =0;
+			}
+		}
+		if(other.getClass()==Ghost.class){
+			Ghost a = (Ghost)other;
+			if(a.canDie){
+				//GameClass.gameObjects.remove(a);
+				a.xPos = 650;
+				a.yPos = 600;
+				a.direction = 0;
+				//a.OnDisable();
+			}else {
+				GameClass.gameObjects.remove(this);
+				this.OnDisable();
 			}
 		}
 	}
@@ -105,7 +143,9 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	@Override
 	public void PaintToScreen(Graphics2D g) {
 		// TODO Auto-generated method stub
-		g.fillRect(xPos - 12, yPos - 12, 24, 24);
+		
+		//g.fillRect(xPos - 12, yPos - 12, 24, 24);
+		g.drawImage(visRep, xPos-12, yPos-12, null );
 		
 	}
 	
@@ -135,12 +175,17 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 			return;
 		
 		this.nextDir = dir;
+		
 	}
 	
 	public void ChangeDirection(int dir){
 		this.speedX =1;
 		this.speedY =1;
 		this.direction = dir;
+		if(dir == 0) visRep = leftImage;
+		if(dir == 1) visRep = upImage;
+		if(dir == 2) visRep = rightImage;
+		if(dir == 3) visRep = downImage;
 	}
 	
 	public boolean CheckChangeDirection(){
@@ -153,14 +198,18 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 			if(this.xPos-12 == 600-12) return true;
 			if(this.xPos-12 == 700-12) return true;
 			if(this.xPos-12 == 800-12) return true;
+			if(this.xPos-12 == 900-12) return true;
+			
 			if(this.xPos-12 == 50-12) return true;
 			if(this.xPos-12 == 150-12) return true;
 			if(this.xPos-12 == 250-12) return true;
 			if(this.xPos-12 == 350-12) return true;
 			if(this.xPos-12 == 450-12) return true;
-			if(this.xPos-24 == 550-12) return true;
+			if(this.xPos-12 == 550-12) return true;
 			if(this.xPos-12 == 650-12) return true;
 			if(this.xPos-12 == 750-12) return true;
+			if(this.xPos-12 == 850-12) return true;
+			if(this.xPos-12 == 950-12) return true;
 			return false;
 		}
 		if (this.direction == 1 || this.direction == 3){
@@ -177,7 +226,7 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 			if(this.yPos-12 == 350-12) return true;
 			if(this.yPos-12 == 450-12) return true;
 			if(this.yPos-12 == 550-12) return true;
-			//if(this.yPos-24 == 650-24) return true;
+			if(this.yPos-12 == 650-12) return true;
 			return false;		
 		}
 		return false;
@@ -186,7 +235,7 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	
 	
 	public Rectangle getBounds() {
-		return new Rectangle(this.xPos-12 , this.yPos-12, 24 , 24);
+		return new Rectangle(this.xPos-12 ,this.yPos-12, 24 , 24);
 	}
 	
 	private void Move(){
@@ -204,14 +253,14 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	//USE THIS TO CHANGE THE SPRITES
 	@Override
 	public void run(){
-		int i = 0;
+		//int i = 0;
 		while(true){
-			System.out.println("THIS RUNS EVERY SECOND");
-			System.out.println(this.nextDir);
-			if(i > 1)
-				i=0;
+			//System.out.println("THIS RUNS EVERY SECOND");
+			//System.out.println(this.nextDir);
+			//if(i > 1)
+				//i=0;
 			//this.myDim = this.dims[i];
-			i++;
+			//i++;
 			try
 			{
 				Thread.sleep(1000);
