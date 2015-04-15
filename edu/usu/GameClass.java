@@ -1,7 +1,12 @@
 package edu.usu;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
@@ -17,8 +22,12 @@ import javax.swing.*;
 public class GameClass extends JPanel {
 	static ArrayList<GameObject> gameObjects = new ArrayList<GameObject>();
 	static ArrayList<GameObject> staticGameObjects = new ArrayList<GameObject>();
+	static JLabel pointsLabel;
+	static JButton restartButton;
+	static int points = 0;
+	static boolean willContinue = true;
+ 
 	
-
 	
 	// THIS CONTROLS THE PLAYER
 	public GameClass(){
@@ -50,9 +59,22 @@ public class GameClass extends JPanel {
 		}
 		
 	});
-	this.setBackground(Color.GRAY);
+	this.setBackground(Color.DARK_GRAY);
 	
-	//makedots();
+	
+	makedots();
+	DotObject bigDot1 = new DotObject(900, 50, true);
+	DotObject bigDot2 = new DotObject(50, 250, true);
+	DotObject bigDot3 = new DotObject(100, 100, true);
+	DotObject bigDot4 = new DotObject(100, 500, true);
+	DotObject bigDot5 = new DotObject(500, 100, true);
+	DotObject bigDot6 = new DotObject(50, 50, true);
+	DotObject bigDot7 = new DotObject(150, 150, true);
+	DotObject bigDot8 = new DotObject(200, 650, true);
+	DotObject bigDot9 = new DotObject(500, 50, true);
+	DotObject bigDot10 = new DotObject(900, 300, true);
+	DotObject bigDot11 = new DotObject(900, 600, true);
+	DotObject bigDot12 = new DotObject(350, 400, true);
 	AddWalls();
 	setFocusable(true);
 	}
@@ -198,10 +220,9 @@ public class GameClass extends JPanel {
 	// THIS FUNCTION PLACES DOTS ALL OVER THE SCREEN
 	private void makedots(){
 
-		for(int i = -4; i < 1000; i += 25){
-			for(int j = -4; j < 800; j += 25){
-
-				//DotObject Dot = new DotObject(i,j);
+		for(int i = 21; i < 950; i += 25){
+			for(int j = 21; j < 750; j += 25){
+				DotObject Dot = new DotObject(i,j,false);
 			}
 			
 		}
@@ -225,7 +246,8 @@ public class GameClass extends JPanel {
 	public static Ghost ghost10 = new Ghost(950,400,1);
 	public static Ghost ghost11 = new Ghost(950,500,2);
 	public static Ghost ghost12 = new Ghost(950,600,3);
-	DebugGridClass degugGrid = new DebugGridClass();
+	DotObject bigDot1 = new DotObject(50, 50, true);
+	//DebugGridClass degugGrid = new DebugGridClass();
 	//==============================================
 	//==============================================
 	@Override
@@ -270,18 +292,50 @@ public class GameClass extends JPanel {
 	// 10 MILLISECONDS BEFORE CALLING THE NEXT LOOP
 	//======================================================================
 	
+	
 	public static void main(String[] args) throws InterruptedException{
+		
 		JFrame frame = new JFrame();
 		GameClass game = new GameClass();
-		frame.add(game);
+		Container container = frame.getContentPane();
+		container.setLayout(new GridBagLayout());
+		pointsLabel = new JLabel("Score");
+		restartButton = new JButton("Restart");
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 1;
+		c.weighty = 1;
+		c.fill = GridBagConstraints.BOTH;
+		game.setSize(1000,750);
 		frame.setSize(1000, 800);
+		container.add(game,c);
+		c.gridwidth = 1;
+		
+		c.gridy = 1;
+		c.gridx = 0;
+		c.weightx = 0;
+		c.weighty = 0;
+		c.fill = GridBagConstraints.NONE;
+		
+		c.anchor = GridBagConstraints.WEST;
+		container.add(pointsLabel,c);
+		
+		c.gridy = 1;
+		c.gridx = 1;
+		c.anchor = GridBagConstraints.EAST;
+		container.add(restartButton,c);
+		//frame.add(container);
+		
+		
 
 		//game.setBackground(Color.black);
 
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//(new Thread(player)).start();
-		while(true){
+		(new Thread(player)).start();
+		while(willContinue){
 			for(int i=0; i< gameObjects.size(); i++){
 				if(gameObjects.get(i).getClass() == PacManObject.class){
 					PacManObject obj = (PacManObject)gameObjects.get(i);
@@ -297,11 +351,18 @@ public class GameClass extends JPanel {
 					WallObject obj = (WallObject)staticGameObjects.get(i);
 					obj.Update();
 				}
+				if(staticGameObjects.get(i).getClass() == DotObject.class){
+					DotObject obj = (DotObject)staticGameObjects.get(i);
+					obj.Update();
+				}
 			}
+			pointsLabel.setText(""+points);
 			game.repaint();
 			Thread.sleep(10);
 		}
 		
 	}
+
+	
 }
 

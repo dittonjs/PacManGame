@@ -12,6 +12,7 @@ public class Ghost extends GameObject{
 	
 	int speedX = 1;
 	int speedY = 1;
+	int pointsToComeAlive = 0;
 	private Image rightImage;
 	private Image leftImage;
 	private Image downImage;
@@ -21,7 +22,7 @@ public class Ghost extends GameObject{
 	public Ghost(int x, int y, int color){
 		this.xPos = x;
 		this.yPos = y;
-		canDie = true;
+		canDie = false;
 		File image1;
         File image2;
         File image3;
@@ -74,6 +75,10 @@ public class Ghost extends GameObject{
 		if(CheckIfTurn()){
 			this.direction = (int)((Math.random()*4)-.01);
 			this.ChangeImage();
+		}
+		if(GameClass.points > pointsToComeAlive){
+			this.canDie = false;
+			ChangeImage();
 		}
 		this.Move();
 	}
@@ -259,8 +264,15 @@ public class Ghost extends GameObject{
 				if(this.yPos-12 == 650-12)return true;
 				return false;
 			}
+			
 						
 		return false;
+	}
+	
+	void SetCanDie(){
+		pointsToComeAlive = GameClass.points + 1000;
+		this.canDie = true;
+		this.ChangeImage();
 	}
 	
 	

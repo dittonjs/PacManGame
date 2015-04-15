@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.*;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 
 //=====================================================
 // USE THIS CLASS AS AN EXAMPLE FOR CREATING YOUR CLASSES.
@@ -32,6 +33,8 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	private Image leftImage;
 	private Image downImage;
 	private Image upImage;
+	private Image mouthClosedImage;
+	private Image visRep2;
 	
 	//private int[] dims = {50, 25};
 	//private int myDim = 50;
@@ -49,10 +52,12 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
             File image2 = new File("PacLeft.png");
             File image3 = new File("PacUp.png");
             File image4 = new File("PacDown.png");
+            File image5 = new File("PacMouthClosed.png");
             rightImage = ImageIO.read(image1);
             leftImage = ImageIO.read(image2);
             upImage = ImageIO.read(image3);
             downImage = ImageIO.read(image4);
+            mouthClosedImage = ImageIO.read(image5);
             visRep = leftImage;
         }
         catch (IOException e){
@@ -109,10 +114,39 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 				a.xPos = 650;
 				a.yPos = 600;
 				a.direction = 0;
+				a.canDie = false;
+				GameClass.points += 250;
 				//a.OnDisable();
 			}else {
 				GameClass.gameObjects.remove(this);
+				GameClass.willContinue = false;
+				JOptionPane.showMessageDialog(null, "YOU HAVE DIED");
 				this.OnDisable();
+			}
+		}
+		if(other.getClass()==DotObject.class){
+			DotObject temp = (DotObject)other;
+			//System.out.println("CALLED");
+			if(temp.isBig){
+				GameClass.points += 200;
+				GameClass.ghost1.SetCanDie();
+				GameClass.ghost2.SetCanDie();
+				GameClass.ghost3.SetCanDie();
+				GameClass.ghost4.SetCanDie();
+				GameClass.ghost5.SetCanDie();
+				GameClass.ghost6.SetCanDie();
+				GameClass.ghost7.SetCanDie();
+				GameClass.ghost8.SetCanDie();
+				GameClass.ghost9.SetCanDie();
+				GameClass.ghost10.SetCanDie();
+				GameClass.ghost11.SetCanDie();
+				GameClass.ghost12.SetCanDie();
+				GameClass.staticGameObjects.remove(other);
+			}else {
+				
+				GameClass.points += 100;
+
+				GameClass.staticGameObjects.remove(other);
 			}
 		}
 	}
@@ -182,10 +216,10 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 		this.speedX =1;
 		this.speedY =1;
 		this.direction = dir;
-		if(dir == 0) visRep = leftImage;
-		if(dir == 1) visRep = upImage;
-		if(dir == 2) visRep = rightImage;
-		if(dir == 3) visRep = downImage;
+		if(dir == 0) visRep2 = leftImage;
+		if(dir == 1) visRep2 = upImage;
+		if(dir == 2) visRep2 = rightImage;
+		if(dir == 3) visRep2 = downImage;
 	}
 	
 	public boolean CheckChangeDirection(){
@@ -253,17 +287,25 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	//USE THIS TO CHANGE THE SPRITES
 	@Override
 	public void run(){
-		//int i = 0;
+		int i = 0;
 		while(true){
 			//System.out.println("THIS RUNS EVERY SECOND");
 			//System.out.println(this.nextDir);
-			//if(i > 1)
-				//i=0;
-			//this.myDim = this.dims[i];
+			if(i==0){
+				visRep = visRep2;
+				i++;
+				System.out.println("I am getting called");
+				}
+			else {
+				visRep = mouthClosedImage;
+				i=0;
+			}
+			
 			//i++;
 			try
 			{
-				Thread.sleep(1000);
+				
+				Thread.sleep(125);
 			}
 			catch(Exception e)
 			{

@@ -82,7 +82,7 @@ public class WallObject extends GameObject{
 				this.visRep = hor100;
 			}
 			else{
-				System.out.println("What the heck this is weird");
+				//System.out.println("What the heck this is weird");
 				this.sizeX=50;
 				this.visRep = hor50;
 			}
