@@ -1,4 +1,6 @@
 package edu.usu;
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
@@ -9,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 
 import javax.swing.*;
@@ -23,10 +27,12 @@ public class GameClass extends JPanel {
 	static ArrayList<GameObject> gameObjects = new ArrayList<GameObject>();
 	static ArrayList<GameObject> staticGameObjects = new ArrayList<GameObject>();
 	static JLabel pointsLabel;
-	static JButton restartButton;
+	static JLabel highScoreLabel;
+	static int highScore;
 	static int points = 0;
 	static boolean willContinue = true;
- 
+	static int numOfDots;
+	static int totalNumOfDots;
 	
 	
 	// THIS CONTROLS THE PLAYER
@@ -60,7 +66,7 @@ public class GameClass extends JPanel {
 		
 	});
 	this.setBackground(Color.DARK_GRAY);
-	
+	this.totalNumOfDots = 477;
 	
 	makedots();
 	DotObject bigDot1 = new DotObject(900, 50, true);
@@ -215,6 +221,7 @@ public class GameClass extends JPanel {
 		for(int i = 0; i<vXPos11.length; i++){
 			WallObject wall = new WallObject(true, true, vXPos11[i],vYPos11[i]);
 		}
+	    WallObject finalWall = new WallObject(false,false, 512,412);
 	}
 	
 	// THIS FUNCTION PLACES DOTS ALL OVER THE SCREEN
@@ -233,7 +240,7 @@ public class GameClass extends JPanel {
 	// 	 It adds itself to the gameObject array list
 	//==============================================
 	public static PacManObject player = new PacManObject(400, 500, 1, false);
-	public static WallObject finalWall = new WallObject(false,false, 512,412);
+	
 	public static Ghost ghost1 = new Ghost(100,100,1);
 	public static Ghost ghost2 = new Ghost(100,200,2);
 	public static Ghost ghost3 = new Ghost(100,300,3);
@@ -294,13 +301,18 @@ public class GameClass extends JPanel {
 	
 	
 	public static void main(String[] args) throws InterruptedException{
-		
+		String website = "https://javapacman.ngrok.com/pacman_beginning.wav";
+		AudioClip clip;
+		AudioClip clip2;
+		String website2 = "https://javapacman.ngrok.com/pac_background.mp3";
+		DataSaver data = new DataSaver("Data.txt");
+		highScore = data.highScore;
 		JFrame frame = new JFrame();
 		GameClass game = new GameClass();
 		Container container = frame.getContentPane();
 		container.setLayout(new GridBagLayout());
 		pointsLabel = new JLabel("Score");
-		restartButton = new JButton("Restart");
+		highScoreLabel = new JLabel("High Score: " + highScore);
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridwidth = 2;
 		c.gridx = 0;
@@ -325,7 +337,7 @@ public class GameClass extends JPanel {
 		c.gridy = 1;
 		c.gridx = 1;
 		c.anchor = GridBagConstraints.EAST;
-		container.add(restartButton,c);
+		container.add(highScoreLabel,c);
 		//frame.add(container);
 		
 		
@@ -334,6 +346,20 @@ public class GameClass extends JPanel {
 
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		try {
+			URL url = new URL(website);
+			URL url2 = new URL(website2);
+			clip = Applet.newAudioClip(url);
+			clip2 = Applet.newAudioClip(url2);
+			clip.play();
+			Thread.sleep(4400);
+			clip2.loop();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		(new Thread(player)).start();
 		while(willContinue){
 			for(int i=0; i< gameObjects.size(); i++){
@@ -359,6 +385,10 @@ public class GameClass extends JPanel {
 			pointsLabel.setText(""+points);
 			game.repaint();
 			Thread.sleep(10);
+		}
+		
+		if(points > highScore){
+			data.Save(points);
 		}
 		
 	}

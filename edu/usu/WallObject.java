@@ -70,7 +70,7 @@ public class WallObject extends GameObject{
 				this.visRep = up100;
 			}
 			else{ 
-				System.out.println("What the heck");
+				//System.out.println("What the heck");
 				this.sizeY = 50;
 				this.visRep = up50;
 			}

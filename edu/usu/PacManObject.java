@@ -8,7 +8,9 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-
+import java.applet.Applet;
+import java.applet.AudioClip;
+import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
@@ -29,12 +31,28 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	private int speedY=1;
 	private int nextDir;
 	
+	URL url;
+	URL url2;
+	URL url3;
+	URL url4;
+	String website = "https://javapacman.ngrok.com/pacman_chomp.wav";
+	String website2 = "https://javapacman.ngrok.com/pacman_death.wav";
+	String website3 = "https://javapacman.ngrok.com/pacman_eatfruit.wav";
+	String website4 = "https://javapacman.ngrok.com/pacman_eatghost.wav";
+	AudioClip clip;
+	AudioClip clip2;
+	AudioClip clip3;
+	AudioClip clip4;
+	
+	AudioClip deathClip;
+	
 	private Image rightImage;
 	private Image leftImage;
 	private Image downImage;
 	private Image upImage;
 	private Image mouthClosedImage;
 	private Image visRep2;
+	private int dotCount;
 	
 	//private int[] dims = {50, 25};
 	//private int myDim = 50;
@@ -46,7 +64,21 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 		this.yPos = y;
 		this.direction = d;
 		this.isStatic = s;
-		
+		this.dotCount = 0;
+		try{
+			url = new URL(website);
+			url4 = new URL(website2);
+			url2 = new URL(website3);
+			url3 = new URL(website4);
+			//url4 = new URL(webstie4);
+			clip = Applet.newAudioClip(url);
+			clip2 = Applet.newAudioClip(url);
+			clip3 = Applet.newAudioClip(url2);
+			clip4 = Applet.newAudioClip(url3);
+			deathClip = Applet.newAudioClip(url4);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		try{
             File image1 = new File("PacRight.png");
             File image2 = new File("PacLeft.png");
@@ -111,6 +143,7 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 			Ghost a = (Ghost)other;
 			if(a.canDie){
 				//GameClass.gameObjects.remove(a);
+				clip4.play();
 				a.xPos = 650;
 				a.yPos = 600;
 				a.direction = 0;
@@ -118,6 +151,7 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 				GameClass.points += 250;
 				//a.OnDisable();
 			}else {
+				deathClip.play();
 				GameClass.gameObjects.remove(this);
 				GameClass.willContinue = false;
 				JOptionPane.showMessageDialog(null, "YOU HAVE DIED");
@@ -126,8 +160,17 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 		}
 		if(other.getClass()==DotObject.class){
 			DotObject temp = (DotObject)other;
+			dotCount++;
+			if(dotCount%4==0){
+				clip.play();
+			}
+			else if(dotCount%4 == 2){
+				clip2.play();
+			}
+			
 			//System.out.println("CALLED");
 			if(temp.isBig){
+				clip3.play();
 				GameClass.points += 200;
 				GameClass.ghost1.SetCanDie();
 				GameClass.ghost2.SetCanDie();
@@ -142,11 +185,17 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 				GameClass.ghost11.SetCanDie();
 				GameClass.ghost12.SetCanDie();
 				GameClass.staticGameObjects.remove(other);
+				GameClass.numOfDots++;
+				//System.out.println(GameClass.numOfDots);
 			}else {
-				
+				GameClass.numOfDots++;
 				GameClass.points += 100;
-
+				//System.out.println(GameClass.numOfDots);
 				GameClass.staticGameObjects.remove(other);
+			}
+			if(GameClass.numOfDots == GameClass.totalNumOfDots){
+				GameClass.willContinue = false;
+				JOptionPane.showMessageDialog(null, "YOU HAVE WON!");
 			}
 		}
 	}
@@ -288,13 +337,14 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	@Override
 	public void run(){
 		int i = 0;
+		int j = 0;
 		while(true){
 			//System.out.println("THIS RUNS EVERY SECOND");
 			//System.out.println(this.nextDir);
 			if(i==0){
 				visRep = visRep2;
 				i++;
-				System.out.println("I am getting called");
+				//System.out.println("I am getting called");
 				}
 			else {
 				visRep = mouthClosedImage;
