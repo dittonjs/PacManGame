@@ -19,6 +19,8 @@ public class Ghost extends GameObject{
 	private Image upImage;
 	private Image deadImage;
 	public boolean canDie;
+	
+	// Assign position and images depending on the color value
 	public Ghost(int x, int y, int color){
 		this.xPos = x;
 		this.yPos = y;
@@ -63,15 +65,19 @@ public class Ghost extends GameObject{
 		}
 		this.OnEnable();
 	}
+	
+	// Things that need to run every frame
 	@Override
 	public void Update() {
 		
+		// If close enough check if we are colliding
 		if(Math.abs(this.xPos - GameClass.player.xPos) < 100 && Math.abs(this.yPos - GameClass.player.yPos) < 100  ){
 			if(this.CheckPlayerCollision()){
 				GameClass.player.OnCollision(this);
 			}
 		}
-			
+		
+		// Check if we are at a point where we can change directions
 		if(CheckIfTurn()){
 			this.direction = (int)((Math.random()*4)-.01);
 			this.ChangeImage();
@@ -80,9 +86,12 @@ public class Ghost extends GameObject{
 			this.canDie = false;
 			ChangeImage();
 		}
+		
+		// Move the ghost in its direction
 		this.Move();
 	}
 
+	// gets called when we collide with a wall
 	@Override
 	public void OnCollision(GameObject other) {
 		// TODO Auto-generated method stub
@@ -99,6 +108,7 @@ public class Ghost extends GameObject{
 		}
 	}
 
+	// sets a default direction and adds ghost to the list of game objects.
 	@Override
 	public void OnEnable() {
 		// Constructor
@@ -106,19 +116,21 @@ public class Ghost extends GameObject{
 		GameClass.gameObjects.add(this);
 	}
 
+	// Does nothing
 	@Override
 	public void OnDisable() {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	// Draws image to screen
 	@Override
 	public void PaintToScreen(Graphics2D g) {
 		// TODO Auto-generated method stub
 		g.drawImage(visRep, xPos-12, yPos-12, null);
 	}
 	
-	
-	
+	// changes the image base off of the direction we are facing or if we can die
 	private void ChangeImage(){
 		if(this.direction == 0) visRep = leftImage;
 		if(this.direction == 1) visRep = upImage;
@@ -126,6 +138,8 @@ public class Ghost extends GameObject{
 		if(this.direction == 3) visRep = downImage;
 		if(this.canDie) visRep = deadImage;
 	}
+	
+	// moves me in the direction i am facing
 	private void Move(){
 		switch(this.direction){
 		case 0: this.xPos -= this.speedX;
@@ -138,16 +152,19 @@ public class Ghost extends GameObject{
 		}
 	}
 	
+	// gets my area on the screen
 	public Rectangle getBounds() {
 		return new Rectangle(this.xPos-12 , this.yPos-12, 24 , 24);
 	}
 	
+	// checks if im colliding with the player
 	public boolean CheckPlayerCollision(){
 		if(this.getBounds().intersects(GameClass.player.getBounds()))
 			GameClass.player.OnCollision(this);
 		return false;
 	}
 	
+	// checks if we are at a turn point and return true or false accordingly
 	private boolean CheckIfTurn(){
 		
 			if(this.xPos-12 == 100-12)
@@ -269,6 +286,7 @@ public class Ghost extends GameObject{
 		return false;
 	}
 	
+	// called when player eats a big dot.
 	void SetCanDie(){
 		pointsToComeAlive = GameClass.points + 1000;
 		this.canDie = true;

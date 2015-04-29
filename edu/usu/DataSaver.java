@@ -9,6 +9,8 @@ public class DataSaver {
 	public File highScoreFile;
 	public int highScore;
 	
+	
+	// Gets the High Score from a file as soon as the game loads.
 	public DataSaver(String fileName){
 		try{
 			this.highScoreFile = new File(fileName);
@@ -20,7 +22,7 @@ public class DataSaver {
 		}
 	}
 	
-	
+	// Saves the high score data to a file.
 	public void Save(int score){
 		try{
 			FileWriter writer = new FileWriter(this.highScoreFile, false);

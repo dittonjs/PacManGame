@@ -37,55 +37,60 @@ public class GameClass extends JPanel {
 	
 	// THIS CONTROLS THE PLAYER
 	public GameClass(){
-	addKeyListener(new KeyListener() {
-
-		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
-			if(e.getKeyCode() == KeyEvent.VK_LEFT)
-				player.ChangeNextDirection(0);
-			if(e.getKeyCode() == KeyEvent.VK_UP)
-				player.ChangeNextDirection(1);
-			if(e.getKeyCode() == KeyEvent.VK_RIGHT)
-				player.ChangeNextDirection(2);
-			if(e.getKeyCode() == KeyEvent.VK_DOWN)
-				player.ChangeNextDirection(3);
-		}
-		
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-	});
-	this.setBackground(Color.DARK_GRAY);
-	this.totalNumOfDots = 477;
+		addKeyListener(new KeyListener() {
 	
-	makedots();
-	DotObject bigDot1 = new DotObject(900, 50, true);
-	DotObject bigDot2 = new DotObject(50, 250, true);
-	DotObject bigDot3 = new DotObject(100, 100, true);
-	DotObject bigDot4 = new DotObject(100, 500, true);
-	DotObject bigDot5 = new DotObject(500, 100, true);
-	DotObject bigDot6 = new DotObject(50, 50, true);
-	DotObject bigDot7 = new DotObject(150, 150, true);
-	DotObject bigDot8 = new DotObject(200, 650, true);
-	DotObject bigDot9 = new DotObject(500, 50, true);
-	DotObject bigDot10 = new DotObject(900, 300, true);
-	DotObject bigDot11 = new DotObject(900, 600, true);
-	DotObject bigDot12 = new DotObject(350, 400, true);
-	AddWalls();
-	setFocusable(true);
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+	
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getKeyCode() == KeyEvent.VK_LEFT)
+					player.ChangeNextDirection(0);
+				if(e.getKeyCode() == KeyEvent.VK_UP)
+					player.ChangeNextDirection(1);
+				if(e.getKeyCode() == KeyEvent.VK_RIGHT)
+					player.ChangeNextDirection(2);
+				if(e.getKeyCode() == KeyEvent.VK_DOWN)
+					player.ChangeNextDirection(3);
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		this.setBackground(Color.DARK_GRAY);
+		this.totalNumOfDots = 477;
+		
+		// Make the dots and big dots
+		makedots();
+		DotObject bigDot1 = new DotObject(900, 50, true);
+		DotObject bigDot2 = new DotObject(50, 250, true);
+		DotObject bigDot3 = new DotObject(100, 100, true);
+		DotObject bigDot4 = new DotObject(100, 500, true);
+		DotObject bigDot5 = new DotObject(500, 100, true);
+		DotObject bigDot6 = new DotObject(50, 50, true);
+		DotObject bigDot7 = new DotObject(150, 150, true);
+		DotObject bigDot8 = new DotObject(200, 650, true);
+		DotObject bigDot9 = new DotObject(500, 50, true);
+		DotObject bigDot10 = new DotObject(900, 300, true);
+		DotObject bigDot11 = new DotObject(900, 600, true);
+		DotObject bigDot12 = new DotObject(350, 400, true);
+		
+		// makes the walls
+		AddWalls();
+		setFocusable(true);
 	}
-	//int[] vXPos = {-13, 187, 687};
-	//int[] vYPos = {0, 0, 100};
+	
+	//=======================================================
+	// THIS IS A GIGANTIC LIST OF POSITIONS FOR OUR WALLS
+	//=======================================================
 	int[] hXPos = { 0, 100, 200, 300, 400, 500, 600, 700,800,900};
 	int[] hYPos = {12, 12, 12, 12, 12, 12, 12, 12, 12, 12};
 	int[] hXPos2 = { 0, 100, 200, 300, 400, 500, 600, 700, 800, 900};
@@ -132,14 +137,11 @@ public class GameClass extends JPanel {
 	int[] vYPos11 = {125,175,275,425,525};
 	int[] vXPos12 = {312,312,712,712};
 	int[] vYPos12 = {275,375,275,375};
-	//int[] hYPos2 = {}
 	
-	// THIS FUNCTION IS TAKE THE ARRAYS ABOVE AND USES THE DATA TO ADD WALLS, ITS
-	// DEFINETELY NOT DONE
+	
+	// THIS FUNCTION IS TAKE THE ARRAYS ABOVE AND USES THE DATA TO ADD WALLS
 	private void AddWalls(){
-		/*for(int i = 0; i<3; i++){
-				WallObject wall = new WallObject(true,vXPos[i],vYPos[i]);
-		}*/
+		
 		for(int i = 0; i<hXPos.length; i++){
 			WallObject wall = new WallObject(false, true, hXPos[i],hYPos[i]);
 		}
@@ -234,8 +236,9 @@ public class GameClass extends JPanel {
 			
 		}
 	}
+	
 	//==============================================
-	// THIS IS A LIST OF ALL OF THE GAME OBJECTS
+	// THIS IS A LIST OF ALL OF THE GAME OBJECTS MINUS THE WALLS AND DOTS
 	// - In the constructor for the object make sure that 
 	// 	 It adds itself to the gameObject array list
 	//==============================================
@@ -257,6 +260,8 @@ public class GameClass extends JPanel {
 	//DebugGridClass degugGrid = new DebugGridClass();
 	//==============================================
 	//==============================================
+	
+	//Draws everything to the screen
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -359,8 +364,10 @@ public class GameClass extends JPanel {
 			e.printStackTrace();
 		}
 		
-		
+		// Starts the thread that handles the player animation
 		(new Thread(player)).start();
+		
+		
 		while(willContinue){
 			for(int i=0; i< gameObjects.size(); i++){
 				if(gameObjects.get(i).getClass() == PacManObject.class){
@@ -387,6 +394,7 @@ public class GameClass extends JPanel {
 			Thread.sleep(10);
 		}
 		
+		// save highscore if beaten
 		if(points > highScore){
 			data.Save(points);
 		}

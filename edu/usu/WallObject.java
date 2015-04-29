@@ -17,6 +17,7 @@ public class WallObject extends GameObject{
 	private Image hor50;
 	private Image hor100;
 	
+	// Sets images
 	public WallObject(boolean vert, boolean bos, int x, int y){
 		try{
             File image1 = new File("VertWall50.png");
@@ -38,6 +39,7 @@ public class WallObject extends GameObject{
 		this.OnEnable();
 	} 
 	
+	// Things that are done every frame
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
@@ -51,12 +53,14 @@ public class WallObject extends GameObject{
 		}
 	}
 
+	// This object doenst handle collisions
 	@Override
 	public void OnCollision(GameObject other) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	// sets size and direction of the wall
 	@Override
 	public void OnEnable() {
 		// TODO Auto-generated method stub
@@ -90,12 +94,14 @@ public class WallObject extends GameObject{
 		GameClass.staticGameObjects.add(this);
 	}
 
+	// do nothing
 	@Override
 	public void OnDisable() {
 		// TODO Auto-generated method stub
 		
 	}
 	
+	// checks if we have touched the player
 	boolean IsColliding(){
 		if(GameClass.player.getBounds().intersects(this.getBounds())){
 			return true;
@@ -103,6 +109,7 @@ public class WallObject extends GameObject{
 		return false;
 	}
 	
+	// checks if we have touched any of the ghosts
 	int IsCollidingGhost(){
 		if(GameClass.ghost1.getBounds().intersects(this.getBounds())) return 1;
 		if(GameClass.ghost2.getBounds().intersects(this.getBounds())) return 2;
@@ -119,6 +126,7 @@ public class WallObject extends GameObject{
 		return -1;
 	}
 	
+	// parameter tells which ghost to send collision call to
 	void GhostCollisionCall(int a){
 		switch(a){
 		case 1:
@@ -161,9 +169,13 @@ public class WallObject extends GameObject{
 		}
 		
 	}
+	
+	// gets our area
 	public Rectangle getBounds() {
 		return new Rectangle(this.xPos, this.yPos, this.sizeX , this.sizeY);
 	}
+	
+	// draws image to screen
 	@Override
 	public void PaintToScreen(Graphics2D g) {
 		// TODO Auto-generated method stub

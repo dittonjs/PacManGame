@@ -31,6 +31,8 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	private int speedY=1;
 	private int nextDir;
 	
+	// These are the sounds, sorry you wont be able to here them because I am not hosting
+	// the website anymore.
 	URL url;
 	URL url2;
 	URL url3;
@@ -59,6 +61,8 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	// AS MUCH AS YOU CAN YOU SHOULD INITIALIZE IN THE ONENABLE FUNCTION 
 	// AND THEN CALL THE ONENABLE FUNCTION LIKE LISTED BELOW
 	
+	
+	//sets position images and sounds
 	public PacManObject(int x, int y, int d, boolean s){
 		this.xPos = x;
 		this.yPos = y;
@@ -101,12 +105,16 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	// EVERY THING THAT PACMAN DOES YOU NEED TO PUT IN HERE, RIGHT NOW IT
 	// SIMPLY ADDS ON TO THE XPOSITION, THEN AFTER ALL THE UPDATES HAVE OCCURED THE REPAINT 
 	// FUNCTION MOVES THE POSITION OF THE OBJECT ON THE SCREEN.
+	
+	// Things that happen every frame.
+	
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
 		//System.out.println("PacManUpdate");
 		
-		
+		// checks if we pushed the arrow keys and then sets our next direction
+		// next time we can turn
 		if(this.CheckChangeDirection()){
 			this.ChangeDirection(nextDir);
 		}
@@ -117,6 +125,8 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	
 	// EVERYTHING YOU WANT TO DO WHEN THIS OBJECT COLLIDES WITH ANOTHER GAME OBJECT
 	// GOES IN HERE
+	
+	// Called when we collide with ghosts, walls, or dots.
 	@Override
 	public void OnCollision(GameObject other) {
 		// TODO Auto-generated method stub
@@ -204,8 +214,6 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	// !EVERY GAME OBJECT WILL NEED TO ADD ITSELF TO THE LIST OF GAMEOBJECTS OR STATICGAMEOBJECTS
 	// AS SHOWN BELOW!
 	
-	
-	
 	@Override
 	public void OnEnable() {
 		// This is basically the constructor
@@ -261,6 +269,7 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 		
 	}
 	
+	// changes our direction and image when called
 	public void ChangeDirection(int dir){
 		this.speedX =1;
 		this.speedY =1;
@@ -271,6 +280,9 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 		if(dir == 3) visRep2 = downImage;
 	}
 	
+	// checks if we are in place where we can change direction, we 
+	// do this because if the player pushes the arrow key one frame too early then
+	// you will get stuck.
 	public boolean CheckChangeDirection(){
 		if(this.direction == 0 || this.direction ==2){
 			if(this.xPos-12 == 100-12) return true;
@@ -316,11 +328,12 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	}
 	
 	
-	
+	// gets our area
 	public Rectangle getBounds() {
 		return new Rectangle(this.xPos-12 ,this.yPos-12, 24 , 24);
 	}
 	
+	// moves us based off of direction
 	private void Move(){
 		switch(this.direction){
 		case 0: this.xPos -= this.speedX;
@@ -334,6 +347,8 @@ public class PacManObject extends GameObject implements EventListener, Runnable 
 	}
 	
 	//USE THIS TO CHANGE THE SPRITES
+	
+	// a separate thread to handle the mouth movement asynchronously.
 	@Override
 	public void run(){
 		int i = 0;
